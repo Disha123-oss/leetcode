@@ -24,8 +24,6 @@ class Solution {
       if(targetSum==0 && root.left==null && root.right==null){
           ArrayList<Integer> temp = new ArrayList<>(al);
           res.add(temp);
-          al.remove(al.size()-1);
-          return;
       }
       path(root.left,targetSum);
       path(root.right,targetSum);
