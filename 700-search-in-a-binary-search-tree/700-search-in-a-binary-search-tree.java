@@ -17,15 +17,16 @@ class Solution {
     TreeNode nn;
     public boolean search(TreeNode root, int val) {
         if(root==null) return false;
-        boolean left = search(root.left,val);
-        boolean right = search(root.right,val);
-        if(left==false && right==false){
-            if(root.val==val){
-                nn = root;
-                return true;
-            }
+        boolean ans = false;
+        if(root.val<val)
+            ans=search(root.right,val);
+        else if(root.val>val)
+            ans=search(root.left,val);
+        else{
+            nn=root;
+            ans=true;
         }
-        return left||right;
+        return ans;
     }
     public TreeNode searchBST(TreeNode root, int val) {
         boolean ans = search(root,val);
