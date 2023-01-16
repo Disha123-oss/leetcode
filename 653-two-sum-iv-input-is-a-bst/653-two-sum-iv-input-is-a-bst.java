@@ -14,24 +14,16 @@
  * }
  */
 class Solution {
-    public boolean search(TreeNode root, int k){
-        if(root==null) return false;
-        boolean ans = false;
-        if(root.val<k)   ans=search(root.right,k);
-        else if(root.val>k)   ans=search(root.left,k);
-        else if(root.val==k)  return true;
-        return ans;
-    }
-    boolean flag = false;
-    public void find(TreeNode root, TreeNode curr, int k){
-        if(curr==null)  return;
-        find(root,curr.left,k);
-        if(search(root,k-curr.val)==true && curr.val!=k-curr.val)
-            flag=true;
-        find(root,curr.right,k);
+    HashSet<Integer> hs = new HashSet<>();
+    public boolean find(TreeNode root, int k){
+        if(root==null)  return false;
+        if(hs.contains(k-root.val))
+            return true;
+        else
+            hs.add(root.val);
+        return find(root.left,k) || find(root.right,k);
     }
     public boolean findTarget(TreeNode root, int k) {
-        find(root,root,k);
-        return flag;
+        return find(root,k);
     }
 }
