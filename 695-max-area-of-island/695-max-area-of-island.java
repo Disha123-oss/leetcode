@@ -20,7 +20,6 @@ class Solution {
                          q.add(new int[]{r,c});
                          visited[r][c]=true;
                          count++;
-                         max=Math.max(max,count);
                      }
                 }
             }
