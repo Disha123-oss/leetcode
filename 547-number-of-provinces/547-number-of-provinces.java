@@ -3,7 +3,7 @@ class Solution {
         visited[src]=true;
         for(int ele : graph[src]){
             if(visited[ele]==false){
-                visited[ele]=true;
+                visited[ele]=true;   //making adjacent components true
                 dfs(ele,graph,visited);
             }
         }
@@ -12,14 +12,13 @@ class Solution {
         int n = isConnected.length;
         ArrayList<Integer>[] graph = new ArrayList[n];
         for(int i=0;i<n;i++){
-            graph[i]=new ArrayList<>();
+            graph[i] = new ArrayList<>();
         }
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
                 if(i==j)  continue;
-                if(isConnected[i][j]==1){
+                if(isConnected[i][j]==1)
                     graph[i].add(j);
-                }
             }
         }
         boolean[] visited = new boolean[n];
@@ -27,7 +26,7 @@ class Solution {
         for(int i=0;i<n;i++){
             if(visited[i]==false){
                 dfs(i,graph,visited);
-                count++;
+                count++;    //counting disconnected components
             }
         }
         return count;
