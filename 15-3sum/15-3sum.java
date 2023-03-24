@@ -24,7 +24,6 @@ class Solution {
 	            {
                     result.add(Arrays.asList(arr[i], arr[left], arr[right]));
                     left++;
-                    right--;
 	            }
 	            else if (sum < 0)
 	                left++;
