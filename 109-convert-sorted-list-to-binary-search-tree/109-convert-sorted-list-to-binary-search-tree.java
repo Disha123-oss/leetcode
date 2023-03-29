@@ -24,19 +24,21 @@
  * }
  */
 class Solution {
-    public TreeNode sortedListToBST(ListNode head) {
-        if(head == null) return null;
-        if(head.next == null) return new TreeNode(head.val);
-        ListNode slow = head,slow_prev = head, fast = head;
-        while(fast != null && fast.next != null){
-        slow_prev = slow;
-        slow = slow.next;
-        fast = fast.next.next;
+    public TreeNode BST(ListNode head, ListNode tail) {
+        ListNode slow = head;
+        ListNode fast = head;
+        if(head==tail)  return null;
+        while(fast!=tail && fast.next!=tail){
+            slow = slow.next;
+            fast = fast.next.next;
         }
-        slow_prev.next = null;
         TreeNode root = new TreeNode(slow.val);
-        root.left = sortedListToBST(head);
-        root.right = sortedListToBST(slow.next);
+        root.left = BST(head,slow);
+        root.right = BST(slow.next,tail);
         return root;
-}
+    }
+    public TreeNode sortedListToBST(ListNode head) {
+        if(head==null)  return null;
+        return BST(head,null);
+    }
 }
