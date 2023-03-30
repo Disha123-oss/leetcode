@@ -14,23 +14,22 @@
  * }
  */
 class Solution {
-    public int sumNumbers(TreeNode root) {
-        List<Integer> ans = new ArrayList<>();
-        dfs(root,ans,0);
-        int ret = 0;
-        for(int i=0; i<ans.size(); i++){
-            ret+=ans.get(i);
+    public void roottoleaf(TreeNode root, String s, List<String> res){
+        if(root==null)  return;
+        s+=Integer.toString(root.val);
+        roottoleaf(root.left,s,res);
+        roottoleaf(root.right,s,res);
+        if(root.left==null && root.right==null){
+            res.add(s);
         }
-        return ret;
     }
-    void dfs(TreeNode root, List<Integer> mid, int temp){
-        if(root == null){
-            return;
+    public int sumNumbers(TreeNode root) {
+        List<String> res = new ArrayList<>();
+        roottoleaf(root,"",res);
+        int ans = 0;
+        for(int i=0;i<res.size();i++){
+            ans += Integer.valueOf(res.get(i));
         }
-        if(root.left == null && root.right == null){
-            mid.add(temp*10 + root.val);
-        }
-        dfs(root.left,mid,temp*10 + root.val);
-        dfs(root.right,mid,temp*10 + root.val);
+        return ans;
     }
 }
