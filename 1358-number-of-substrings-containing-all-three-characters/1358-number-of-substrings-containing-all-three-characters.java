@@ -1,19 +1,16 @@
 class Solution {
     public int numberOfSubstrings(String s) {
-        int st=0,e=0,n=s.length(),flag=0,ans=0;
-        HashMap<Character,Integer> hm = new HashMap<>();
+        int st=0,e=0,n=s.length(),ans=0;
+        int[] fre = new int[3];
         while(e<n){
             //expansion
-            hm.put(s.charAt(e),hm.getOrDefault(s.charAt(e),0)+1);
+            fre[s.charAt(e)-'a']++;
             e++;
             
             //contraction
-            while(hm.containsKey('a') && hm.containsKey('b') && hm.containsKey('c')){
+            while(fre[0]>0 && fre[1]>0 && fre[2]>0){
                 ans+=n-e+1;
-                if(hm.get(s.charAt(st))==1)
-                    hm.remove(s.charAt(st));
-                else
-                    hm.put(s.charAt(st),hm.get(s.charAt(st))-1);
+                fre[s.charAt(st)-'a']--;
                 st++;
             }
         }
