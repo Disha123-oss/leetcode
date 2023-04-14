@@ -14,33 +14,23 @@
  * }
  */
 class Solution {
-    public int sum(TreeNode root){
-        if(root==null)  return 0;
-        int left = sum(root.left);
-        int right = sum(root.right);
-        return left+right+root.val;
-    }
-    public int nodes(TreeNode root){
-        if(root==null)  return 0;
-        int left = nodes(root.left);
-        int right = nodes(root.right);
-        return 1+left+right;
-    }
     int count=0;
-    public void avg(TreeNode root){
-        if(root==null)  return;
-        if(root.left==null && root.right==null){
-            count++;
-            return;
+    public int[] postorder(TreeNode root){
+        if(root==null){
+            return new int[]{0,0};
         }
-        avg(root.left);
-        avg(root.right);
-        int ans = sum(root)/nodes(root);
-        if(root.val==ans)
+        int[] left = postorder(root.left);
+        int[] right = postorder(root.right);
+        int sum = left[0]+right[0]+root.val;
+        int nodes = left[1]+right[1]+1;
+        if((sum/nodes)==root.val){
             count++;
+        }
+        return new int[]{sum,nodes};
     }
     public int averageOfSubtree(TreeNode root) {
-        avg(root);
+        if(root==null)  return 0;
+        postorder(root);
         return count;
     }
 }
