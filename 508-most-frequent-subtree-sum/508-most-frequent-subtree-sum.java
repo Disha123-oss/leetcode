@@ -22,14 +22,6 @@ class Solution {
         hm.put(ans,hm.getOrDefault(ans,0)+1);
         return ans;
     }
-    public int postorder(TreeNode root, int max, Map<Integer,Integer> hm, Set<Integer> hs){
-        if(root==null) return 0;
-        int left = postorder(root.left,max,hm,hs);
-        int right = postorder(root.right,max,hm,hs);
-        int ans = root.val+left+right;
-        if(hm.get(ans)==max) hs.add(ans);
-        return ans;
-    }
     public int[] findFrequentTreeSum(TreeNode root) {
         Map<Integer,Integer> hm = new HashMap<>();
         sum(root,hm);
@@ -37,12 +29,14 @@ class Solution {
         for(int val : hm.values()){
             max = Math.max(max,val);
         }
-        Set<Integer> hs = new HashSet<>();
-        postorder(root,max,hm,hs);
-        int[] arr = new int[hs.size()];
-        int i=0;
-        for(int ele : hs){
-            arr[i++] = ele;
+        List<Integer> al = new ArrayList<>();
+        for(int key : hm.keySet()){
+            if(hm.get(key)==max)
+                al.add(key);
+        }
+        int[] arr = new int[al.size()];
+        for(int i=0;i<al.size();i++){
+            arr[i] = al.get(i);
         }
         return arr;
     }
