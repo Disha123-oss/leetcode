@@ -8,33 +8,34 @@
  * }
  */
 class Solution {
-    public void roottotarget(TreeNode root, TreeNode target, List<TreeNode> al, List<TreeNode> res){
+    List<Integer> al = new ArrayList<>();
+    public void knodesdown(TreeNode root, TreeNode blocker, int k){
+        if(root==null || root==blocker || k<0) return;
+        knodesdown(root.left,blocker,k-1);
+        knodesdown(root.right,blocker,k-1);
+        if(k==0) al.add(root.val);
+    }
+    public void roottoleaf(TreeNode root, TreeNode target, List<TreeNode> path, List<TreeNode> list){
         if(root==null) return;
-        al.add(root);
+        path.add(root);
         if(root==target){
-            for(int i=0;i<al.size();i++){
-                res.add(al.get(i));
+            for(int i=0;i<path.size();i++){
+                list.add(path.get(i));
             }
         }
-        roottotarget(root.left,target,al,res);
-        roottotarget(root.right,target,al,res);
-        al.remove(al.size()-1);
-    }
-    public void knodesdown(TreeNode root, int k, TreeNode blocker, List<Integer> al){
-        if(root==null || k<0 || root==blocker) return;
-        if(k==0) al.add(root.val);
-        knodesdown(root.left,k-1,blocker,al);
-        knodesdown(root.right,k-1,blocker,al);
+        roottoleaf(root.left,target,path,list);
+        roottoleaf(root.right,target,path,list);
+        path.remove(path.size()-1);
     }
     public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
-        List<TreeNode> al = new ArrayList<>();
+        if(root==null) return al;
         List<TreeNode> path = new ArrayList<>();
-        roottotarget(root,target,al,path);
-        Collections.reverse(path);
-        List<Integer> list = new ArrayList<>();
-        for(int i=0;i<path.size();i++){
-            knodesdown(path.get(i),k-i,i==0 ? null:path.get(i-1),list);
+        List<TreeNode> list = new ArrayList<>();
+        roottoleaf(root,target,path,list);
+        for(int i=list.size()-1;i>=0;i--){
+            knodesdown(list.get(i),(i==list.size()-1)?null:list.get(i+1),k);
+            k--;
         }
-        return list;
+        return al;
     }
 }
