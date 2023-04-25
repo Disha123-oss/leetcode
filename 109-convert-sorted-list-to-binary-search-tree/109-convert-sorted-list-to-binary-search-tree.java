@@ -24,21 +24,33 @@
  * }
  */
 class Solution {
-    public TreeNode BST(ListNode head, ListNode tail) {
-        ListNode slow = head;
-        ListNode fast = head;
-        if(head==tail)  return null;
-        while(fast!=tail && fast.next!=tail){
-            slow = slow.next;
-            fast = fast.next.next;
+    public int length(ListNode head){
+        ListNode curr = head;
+        int len=0;
+        while(curr!=null){
+            curr = curr.next;
+            len++;
         }
-        TreeNode root = new TreeNode(slow.val);
-        root.left = BST(head,slow);
-        root.right = BST(slow.next,tail);
+        return len;
+    }
+    public TreeNode bst(int[] arr, int s, int e) {
+        if(s>e) return null;
+        int mid = (s+e)/2;
+        TreeNode root = new TreeNode(arr[mid]);
+        root.left = bst(arr,s,mid-1);
+        root.right = bst(arr,mid+1,e);
         return root;
     }
     public TreeNode sortedListToBST(ListNode head) {
-        if(head==null)  return null;
-        return BST(head,null);
+        if(head==null) return null;
+        int len = length(head);
+        int[] arr = new int[len];
+        ListNode curr = head;
+        int i=0;
+        while(curr!=null){
+            arr[i++] = curr.val;
+            curr = curr.next;
+        }
+        return bst(arr,0,len-1);
     }
 }
