@@ -8,30 +8,32 @@
  * }
  */
 class Solution {
-    public void path(TreeNode root, int target, List<TreeNode> al, List<TreeNode> res){
-        if(root==null)  return;
-        al.add(root);
-        if(root.val==target){
-            for(int i=0;i<al.size();i++){
-                res.add(al.get(i));
+    public void roottoleaf(TreeNode root, TreeNode target, ArrayList<TreeNode> path, ArrayList<TreeNode> res){
+        if(root==null) return;
+        path.add(root);
+        if(root==target){
+            for(int i=0;i<path.size();i++){
+                res.add(path.get(i));
             }
         }
-        path(root.left,target,al,res);
-        path(root.right,target,al,res);
-        al.remove(al.size()-1);
+        roottoleaf(root.left,target,path,res);
+        roottoleaf(root.right,target,path,res);
+        path.remove(path.size()-1);
     }
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        List<TreeNode> al = new ArrayList<>();
-        List<TreeNode> res1 = new ArrayList<>();
-        path(root,p.val,al,res1);
+        ArrayList<TreeNode> al = new ArrayList<>();
+        ArrayList<TreeNode> path1 = new ArrayList<>();
+        roottoleaf(root,p,al,path1);
         al = new ArrayList<>();
-        List<TreeNode> res2 = new ArrayList<>();
-        path(root,q.val,al,res2);
-        int min = Math.min(res1.size(),res2.size());
-        TreeNode ans=null;
-        for(int i=0;i<min;i++){
-            if(res1.get(i)==res2.get(i))
-                ans=res1.get(i);
+        ArrayList<TreeNode> path2 = new ArrayList<>();
+        roottoleaf(root,q,al,path2);
+        int i=0,min=Math.min(path1.size(),path2.size());
+        TreeNode ans = null;
+        while(i<min){
+            if(path1.get(i)!=path2.get(i))
+                break;
+            ans=path1.get(i);
+            i++;
         }
         return ans;
     }
