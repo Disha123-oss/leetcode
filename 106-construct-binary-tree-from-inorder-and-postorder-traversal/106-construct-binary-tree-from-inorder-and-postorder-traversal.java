@@ -14,31 +14,20 @@
  * }
  */
 class Solution {
-    int postindex=0;
-    TreeNode tree(int post[],int in[],int is,int ie)
-    {
-        if(is>ie)
-        {
-            return null;
-        }
-        TreeNode root=new TreeNode(post[postindex--]);
-        
-        int inindex=0;
-        for(int i=is;i<=ie;i++)
-        {
-            if(in[i]==root.val)
-            {
-                inindex=i;
-                break;
-            }
-        }
-        root.right=tree(post,in,inindex+1,ie);
-        root.left=tree(post,in,is,inindex-1);
-        
+    public TreeNode build(int[] postorder, int[] inorder,Map<Integer,Integer> hm, int s, int e, int ps, int pe){
+        if(s>e) return null;
+        TreeNode root = new TreeNode(postorder[pe]);
+        int ind = hm.get(postorder[pe]);
+        int tot = ind-s;
+        root.left = build(postorder,inorder,hm,s,ind-1,ps,ps+tot-1);
+        root.right = build(postorder,inorder,hm,ind+1,e,ps+tot,pe-1);
         return root;
     }
     public TreeNode buildTree(int[] inorder, int[] postorder) {
-           postindex=postorder.length-1;
-           return tree(postorder,inorder,0,inorder.length-1);
+        Map<Integer,Integer> hm = new HashMap<>();
+        for(int i=0;i<inorder.length;i++){
+            hm.put(inorder[i],i);
+        }
+        return build(postorder,inorder,hm,0,inorder.length-1,0,postorder.length-1);
     }
 }
