@@ -15,16 +15,16 @@
  */
 class Solution {
     public boolean isCompleteTree(TreeNode root) {
-        Queue<TreeNode> queue = new LinkedList<TreeNode>();
-        queue.add(root);
-        while(queue.peek() != null){
-            TreeNode node = queue.remove();
-            queue.add(node.left);
-            queue.add(node.right);
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+        while(q.peek()!=null){
+            TreeNode temp = q.remove();
+            q.add(temp.left);
+            q.add(temp.right);
         }
-        while(!queue.isEmpty() && queue.peek()==null){
-            queue.remove();
+        while(q.size()>0 && q.peek()==null){
+            q.remove();
         }
-        return queue.isEmpty();
+        return q.size()==0;
     }
 }
