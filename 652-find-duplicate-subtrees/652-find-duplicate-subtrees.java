@@ -14,23 +14,24 @@
  * }
  */
 class Solution {
-    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
-        List<TreeNode> res=new ArrayList<>();
-        HashMap<String,Integer> hm=new HashMap<>();
-        helper(res,root,hm);
+    public String findduplicate(TreeNode root, List<TreeNode> ans, Map<String,Integer> hm){
+        if(root==null) return "&";
+        String left = findduplicate(root.left,ans,hm);
+        String right = findduplicate(root.right,ans,hm);
+        String res = left+","+right+","+root.val;
+        if(!hm.containsKey(res))
+            hm.put(res,1);
+        else{
+            if(hm.get(res)==1)
+                ans.add(root);
+            hm.put(res,2);
+        }
         return res;
     }
-    public String helper(List<TreeNode> res,TreeNode root,HashMap<String,Integer> hm){
-        if(root==null)
-            return "";
-        String left=helper(res,root.left,hm);
-        String right=helper(res,root.right,hm);
-        int currroot=root.val;
-        String stringformed=currroot+"$"+left+"$"+right;
-        if(hm.getOrDefault(stringformed,0)==1){
-            res.add(root);
-        }
-        hm.put(stringformed,hm.getOrDefault(stringformed,0)+1);
-        return stringformed;
+    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+        List<TreeNode> ans = new ArrayList<>();
+        Map<String,Integer> hm = new HashMap<>();
+        findduplicate(root,ans,hm);
+        return ans;
     }
 }
