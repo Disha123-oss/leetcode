@@ -1,20 +1,19 @@
 class Solution {
-    public int firstMissingPositive(int[] nums) {
-        for(int i=0;i<nums.length;i++){
-            if(nums[i]<=0 || nums[i]>nums.length)
-                nums[i]=nums.length+1;
+    public int firstMissingPositive(int[] arr) {
+        int n = arr.length;
+        for(int i=0;i<n;i++){
+            if(arr[i]<=0 || arr[i]>n)
+                arr[i] = n+1;
         }
-        for(int i=0;i<nums.length;i++){
-            int ind = Math.abs(nums[i]);
-            if(ind<=nums.length){
-                if(nums[ind-1]>0)
-                    nums[ind-1] = -nums[ind-1];
-            }
+        for(int i=0;i<n;i++){
+            int index = Math.abs(arr[i]);
+            if(index<=n && arr[index-1]>0)
+                arr[index-1] = -arr[index-1];
         }
-        for(int i=0;i<nums.length;i++){
-            if(nums[i]>0)
+        for(int i=0;i<n;i++){
+            if(arr[i]>0)
                 return i+1;
         }
-        return nums.length+1;
+        return n+1;
     }
 }
