@@ -1,20 +1,21 @@
 class Solution {
     public int search(int[] arr, int key) {
-        int s=0,e=arr.length-1;
-        while(s<=e){
-            int mid = (s+e)/2;
-            if(key==arr[mid])   return mid;
-            else if(arr[s]<arr[mid]){
-                if(arr[s]<=key && key<arr[mid])
-                    e=mid-1;
+        int n=arr.length,low=0,hi=n-1;
+        while(low<=hi){
+            int mid = (low+hi)/2;
+            if(arr[mid]==key)
+                return mid;
+            else if(arr[low]<arr[mid]){
+                if(key>=arr[low] && key<arr[mid])
+                    hi=mid-1;
                 else
-                    s=mid+1;
+                    low=mid+1;
             }
             else{
-                if(mid+1<arr.length && arr[mid+1]<=key && key<=arr[e])
-                    s=mid+1;
+                if(mid+1<n && key>=arr[mid+1] && key<=arr[hi])
+                    low=mid+1;
                 else
-                    e=mid-1;
+                    hi=mid-1;
             }
         }
         return -1;
