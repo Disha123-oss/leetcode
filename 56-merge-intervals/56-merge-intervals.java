@@ -1,38 +1,33 @@
 class Pair{
-    int start=0,finish=0;
-    Pair(int start, int finish){
-        this.start = start;
-        this.finish = finish;
+    int arval, dep;
+    Pair(int arval, int dep){
+        this.arval = arval;
+        this.dep = dep;
     }
 }
 class Solution {
     public int[][] merge(int[][] intervals) {
         int n = intervals.length;
-        Pair[] arr = new Pair[n];
-        for(int i=0;i<n;i++){
-            arr[i] = new Pair(intervals[i][0],intervals[i][1]);
-        }
-        Arrays.sort(arr,(o1,o2)->(o1.start-o2.start));
+        Arrays.sort(intervals,(int[] num1, int[] num2) -> (Integer.compare(num1[0],num2[0])));
         Stack<Pair> st = new Stack<>();
         for(int i=0;i<n;i++){
-            if(st.size()>0){
-                if(st.peek().finish>=arr[i].start && st.peek().finish<arr[i].finish){
-                    st.peek().finish = arr[i].finish;
-                }
-                else if(st.peek().finish<arr[i].start){
-                    st.push(arr[i]);
+            if(st.size()>0 && st.peek().dep>=intervals[i][0]){
+                if(st.peek().dep<intervals[i][1]){
+                    Pair nn = st.pop();
+                    st.push(new Pair(nn.arval,intervals[i][1]));
                 }
             }
             else
-                st.push(arr[i]);
+                st.push(new Pair(intervals[i][0],intervals[i][1]));
         }
-        n = st.size();
-        int[][] res = new int[n][2];
-        for(int i=n-1;i>=0;i--){
-            Pair p = st.pop();
-            res[i][0] = p.start;
-            res[i][1] = p.finish;
+        int[][] ans = new int[st.size()][2];
+        int i = st.size()-1;
+        while(st.size()>0){
+            Pair nn = st.pop();
+            ans[i][0] = nn.arval;
+            ans[i][1] = nn.dep;
+            i--;
         }
-        return res;
+        return ans;
     }
 }
