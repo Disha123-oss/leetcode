@@ -1,22 +1,19 @@
 class Solution {
+    public boolean palin(String s, int st, int e){
+        if(st>=e) return true;
+        if(s.charAt(st)!=s.charAt(e)) return false;
+        boolean ans = palin(s,st+1,e-1);
+        return ans;
+    }
     public boolean isPalindrome(String s) {
+        int n = s.length();
+        s = s.toLowerCase();
         String str = "";
-        for(int i=0;i<s.length();i++){
-            int val = (int)(s.charAt(i));
-            if(val>=65 && val<=90)
-                str+=(char)(val+32);
-            else if(val>=97 && val<=122)
-                str+=s.charAt(i);
-            else if(val>=48 && val<=57)
+        for(int i=0;i<n;i++){
+            if((s.charAt(i)<=122 && s.charAt(i)>=97) || (s.charAt(i)>=48 && s.charAt(i)<=57))
                 str+=s.charAt(i);
         }
-        int i=0,j=str.length()-1;
-        while(i<j){
-            if(str.charAt(i)!=str.charAt(j))
-                return false;
-            i++;
-            j--;
-        }
-        return true;
+        n=str.length();
+        return palin(str,0,n-1);
     }
 }
