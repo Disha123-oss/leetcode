@@ -8,7 +8,9 @@ class Solution {
         Arrays.sort(nums);
         Set<List<Integer>> hs = new HashSet<>();
         for(int i=0;i<n-3;i++){
+            while(i>0 && i<n-3 && nums[i]==nums[i-1]) i++;
             for(int j=i+1;j<n-2;j++){
+                while(j>i+1 && j<n-2 && nums[j]==nums[j-1]) j++;
                 int k = j+1;
                 int l = n-1;
                 while(k<l){
